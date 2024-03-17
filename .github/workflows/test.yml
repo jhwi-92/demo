@@ -1,0 +1,106 @@
+name: Deploy to API-ALPHA
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: $
+  GCE_INSTANCE: vm-message-api-alpha # TODO: update to instance name
+  GCE_INSTANCE_ZONE: asia-northeast3-a # TODO: update to instance zone
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      #
+      #      - name: Run chmod to make gradlew executable
+      #        run: chmod +x ./gradlew
+      #
+      #      - name: Setup Gradle
+      #        uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
+      #        with:
+      #          gradle-version: '8.5'
+
+      #      - name: Build message-api
+      #        run: ./gradlew :message-api:clean :message-api:bootJar
+      #
+      #      - name: Build message-batch
+      #        run: ./gradlew :message-batch:clean :message-batch:bootJar
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCE_SA_KEY }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+        with:
+          project_id: '${{ secrets.GCE_PROJECT }}'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: Authenticate Docker to GCR
+        run: gcloud auth configure-docker asia-northeast3-docker.pkg.dev
+
+      - name: Build Docker image
+        run: docker build --build-arg ENVIROMENT=alpha --build-arg MODULE_NAME=api --tag asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest .
+
+      - name: Push Docker image to GCR
+        run: docker push asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha
+
+
+      #      - name: Test
+      #        run: gcloud compute instances update-container vm-message-api-alpha -- --container-image=asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha --container-privileged
+
+      - name: auth list
+        run: gcloud auth list
+
+      - name: asdasid
+        run: |-
+          gcloud compute instances update-container $GCE_INSTANCE \
+            --zone $GCE_INSTANCE_ZONE \
+            --container-image asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
+
+#  run-docker:
+#    needs: build
+#    runs-on: self-hosted
+
+#    steps:
+
+
+
+#      - name: Pull Artifact Registry image
+#        run: docker pull asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
+#
+#      - name: Deploy Artifact Registry image
+#        run: docker run -e ENVIROMENT=alpha -d -t -p 0.0.0.0:33010:33010 -p 0.0.0.0:33020:33020 asia-northeast3-docker.pkg.dev/sonja-001/sonja-docker-repo/message-module
+#        run: sudo docker run --restart always -e ENVIROMENT=alpha -d -t -p 33010:33010 -v /var/log/app:/app/log asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
+#        run: sudo docker run -d -e ENVIROMENT=alpha --net=host asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
+
+#      - name: delete old docker image
+#        run: sudo docker image prune -f
+
+
+#      - name: SSH into hosting server and pull latest image
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.HOST_API }}
+#          username: ${{ secrets.USERNAME }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          port: 22
+#          script: |
+#            docker pull asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
+#            sudo docker run -e ENVIROMENT=alpha -e MODULE_NAME=batch -d -t -p 0.0.0.0:33010:33010 asia-northeast3-docker.pkg.dev/sonja-001/sonja-docker-repo/message-module-alpha:latest
+#            sudo docker image prune -f
