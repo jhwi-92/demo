@@ -78,7 +78,7 @@ jobs:
             --zone $GCE_INSTANCE_ZONE \
 #            --container-image asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
             --container-image asia-northeast3-docker.pkg.dev/serene-anagram-416906/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
-
+#
 #  run-docker:
 #    needs: build
 #    runs-on: self-hosted
