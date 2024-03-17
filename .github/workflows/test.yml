@@ -62,8 +62,7 @@ jobs:
 
       - name: Push Docker image to GCR
         run: docker push asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha
-
-
+#
       #      - name: Test
       #        run: gcloud compute instances update-container vm-message-api-alpha -- --container-image=asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha --container-privileged
 
