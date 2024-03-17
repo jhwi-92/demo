@@ -77,8 +77,6 @@ jobs:
 #    needs: build
 #    runs-on: self-hosted
 
-#    steps:
-#
 
 
 #      - name: Pull Artifact Registry image
