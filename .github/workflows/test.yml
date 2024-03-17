@@ -57,10 +57,6 @@ jobs:
       - name: Auth List
         run: gcloud auth list
 
-      - name: Get Iam Policy
-        run: gcloud projects get-iam-policy ${{ secrets.GCE_PROJECT }}
-
-
       - name: Build Docker image
         run: docker build --build-arg ENVIROMENT=alpha --build-arg MODULE_NAME=api --tag asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest .
 
