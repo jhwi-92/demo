@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: $
-  GCE_INSTANCE: vm-test # TODO: update to instance name
+  GCE_INSTANCE: vm-auth-test # TODO: update to instance name
   GCE_INSTANCE_ZONE: asia-northeast3-a # TODO: update to instance zone
 
 jobs:
@@ -74,7 +74,7 @@ jobs:
           gcloud compute instances update-container $GCE_INSTANCE \
             --zone $GCE_INSTANCE_ZONE \
             --container-image asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
-#
+
 #  run-docker:
 #    needs: build
 #    runs-on: self-hosted
