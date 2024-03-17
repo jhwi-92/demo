@@ -46,8 +46,8 @@ jobs:
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
-#          project_id: '${{ secrets.GCE_PROJECT }}'
           project_id: 'serene-anagram-416906'
+#          project_id: '${{ secrets.GCE_PROJECT }}'
 
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
@@ -59,12 +59,12 @@ jobs:
         run: gcloud auth list
 
       - name: Build Docker image
-#        run: docker build --build-arg ENVIROMENT=alpha --build-arg MODULE_NAME=api --tag asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest .
         run: docker build --build-arg ENVIROMENT=alpha --build-arg MODULE_NAME=api --tag asia-northeast3-docker.pkg.dev/serene-anagram-416906/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest .
+#        run: docker build --build-arg ENVIROMENT=alpha --build-arg MODULE_NAME=api --tag asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest .
 
       - name: Push Docker image to GCR
-#        run: docker push asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha
         run: docker push asia-northeast3-docker.pkg.dev/serene-anagram-416906/${{ secrets.REGISTRY_NAME }}/message-module-alpha
+#        run: docker push asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha
 
       #      - name: Test
       #        run: gcloud compute instances update-container vm-message-api-alpha -- --container-image=asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha --container-privileged
@@ -75,8 +75,8 @@ jobs:
         run: |-
           gcloud compute instances update-container $GCE_INSTANCE \
             --zone $GCE_INSTANCE_ZONE \
-#            --container-image asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
             --container-image asia-northeast3-docker.pkg.dev/serene-anagram-416906/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
+#            --container-image asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
 #
 #  run-docker:
 #    needs: build
