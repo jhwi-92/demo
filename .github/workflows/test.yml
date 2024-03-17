@@ -7,7 +7,7 @@ on:
 
 env:
   PROJECT_ID: $
-  GCE_INSTANCE: lts-109 # TODO: update to instance name
+  GCE_INSTANCE: vm-test # TODO: update to instance name
   GCE_INSTANCE_ZONE: asia-northeast3-a # TODO: update to instance zone
 
 jobs:
