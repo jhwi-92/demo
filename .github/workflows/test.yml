@@ -51,7 +51,7 @@ jobs:
         with:
           project_id: 'serene-anagram-416906'
 #          project_id: '${{ secrets.GCE_PROJECT }}'
-
+#
 
       - name: 'Configure gcloud Project'
         run: gcloud config set project serene-anagram-416906
