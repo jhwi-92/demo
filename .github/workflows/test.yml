@@ -98,7 +98,7 @@ jobs:
 #  run-docker:
 #    needs: build
 #    runs-on: self-hosted
-
+#
 
 #      - name: Pull Artifact Registry image
 #        run: docker pull asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
