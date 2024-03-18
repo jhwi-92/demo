@@ -71,10 +71,13 @@ jobs:
 
       - name: auth list
         run: gcloud auth list
+
+
       - name: asdasid
         run: |-
           gcloud compute instances update-container $GCE_INSTANCE \
             --zone $GCE_INSTANCE_ZONE \
+            --project=serene-anagram-416906
             --container-image asia-northeast3-docker.pkg.dev/serene-anagram-416906/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
             --container-mount-host-path=mount-path=/app/log,host-path=/var/log/app/log,mode=rw \
 #            --container-image asia-northeast3-docker.pkg.dev/${{ secrets.GCE_PROJECT }}/${{ secrets.REGISTRY_NAME }}/message-module-alpha:latest
