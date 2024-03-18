@@ -50,6 +50,7 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v2'
         with:
           project_id: 'serene-anagram-416906'
+          export_default_credentials: false
 #          project_id: '${{ secrets.GCE_PROJECT }}'
 
 
