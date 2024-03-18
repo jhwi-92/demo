@@ -40,6 +40,10 @@ jobs:
       #      - name: Build message-batch
       #        run: ./gradlew :message-batch:clean :message-batch:bootJar
 
+
+      - name: 'gcloud projects list'
+        run: gcloud projects list
+
       - id: 'auth'
         uses: 'google-github-actions/auth@v2'
         with:
