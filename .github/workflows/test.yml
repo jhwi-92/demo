@@ -9,6 +9,8 @@ env:
   PROJECT_ID: $
   GCE_INSTANCE: vm-auth-test # TODO: update to instance name
   GCE_INSTANCE_ZONE: asia-northeast3-a # TODO: update to instance zone
+  CLOUDSDK_CORE_PROJECT: serene-anagram-416906
+  GCLOUD_PROJECT: serene-anagram-416906
 
 jobs:
   deploy:
