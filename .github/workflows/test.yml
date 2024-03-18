@@ -53,7 +53,7 @@ jobs:
 #          project_id: 'serene-anagram-416906'
 #          export_default_credentials: false
 
-
+#
 #      - name: 'Configure gcloud Project'
 #        run: gcloud config set project serene-anagram-416906
 
